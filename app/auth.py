@@ -159,12 +159,12 @@ def confirm():
             #----------------------------------------------------------------------
             if attempt is not None:
                 db.execute(
-                    "UPDATE forgotlink SET state = ? WHERE userid = ?", (utils.F_INACTIVE, attempt['id'])
+                    "UPDATE forgotlink SET state = ? WHERE id = ?", (utils.F_INACTIVE, attempt['id'])
                 )
                 salt = hex(random.getrandbits(128))[2:]
                 hashP = generate_password_hash(password + salt)   
                 db.execute(
-                    "UPDATE user SET password = ? salt = ? WHERE id = ?", (hashP, salt, attempt['userid'])####? username or id
+                    "UPDATE user SET password = ?, salt = ? WHERE id = ?", (hashP, salt, attempt['userid'])####? username or id
                 )
                 db.commit()
                 return redirect(url_for('auth.login'))

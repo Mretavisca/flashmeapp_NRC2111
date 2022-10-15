@@ -19,7 +19,7 @@ def show():
     db = get_db()
     userid = g.user['id']
     messages = db.execute(
-        'SELECT * FROM message WHERE to_id = ?',(userid,)
+        'SELECT * FROM message m INNER JOIN user u ON u.id = m.from_id WHERE to_id = ? OR from_id = ?',(userid, userid)
     ).fetchall()
 
     return render_template('inbox/show.html', messages=messages)
